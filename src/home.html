@@ -36,7 +36,7 @@
 
 
    <!-- banner -->  
-   <div class="bg-black filter brightness-40"  style="background: url('../img/hero-image-1.jpg'); height: 450px;">
+   <div class="bg-black filter brightness-40"  style="background: url('../img/resort-black-1.jpeg'); height: 550px;">
         <div class="container max-w-5xl mx-auto h-full px-4  flex items-center justify-center ">
             <div>
                 <div class="text-center">
@@ -45,13 +45,40 @@
                 </div>
                 <div class="mt-7">
                     <form class="grid grid-cols-2 gap-4">
-                        <select class="bg-grey-50 px-3 py-2 border border-grey-300 rounded text-gray-500">
+                        <select name="estados" id="estados" class="bg-grey-50 px-3 py-2 border border-grey-300 rounded text-gray-500">
                             <option value="">Escolha estado</option>
+                            <option value="AC">Acre</option>
+                            <option value="AL">Alagoas</option>
+                            <option value="AP">Amapá</option>
+                            <option value="AM">Amazonas</option>
+                            <option value="BA">Bahia</option>
+                            <option value="CE">Ceará</option>
+                            <option value="DF">Distrito Federal</option>
+                            <option value="ES">Espírito Santo</option>
+                            <option value="GO">Goiás</option>
+                            <option value="MA">Maranhão</option>
+                            <option value="MT">Mato Grosso</option>
+                            <option value="MS">Mato Grosso do Sul</option>
+                            <option value="MG">Minas Gerais</option>
+                            <option value="PA">Pará</option>
+                            <option value="PB">Paraíba</option>
+                            <option value="PR">Paraná</option>
+                            <option value="PE">Pernambuco</option>
+                            <option value="PI">Piauí</option>
+                            <option value="RJ">Rio de Janeiro</option>
+                            <option value="RN">Rio Grande do Norte</option>
+                            <option value="RS">Rio Grande do Sul</option>
+                            <option value="RO">Rondônia</option>
+                            <option value="RR">Roraima</option>
+                            <option value="SC">Santa Catarina</option>
+                            <option value="SP">São Paulo</option>
+                            <option value="SE">Sergipe</option>
+                            <option value="TO">Tocantins</option>
                         </select>
-                        <select class="bg-grey-50 px-3 py-2 border border-grey-300 rounded text-gray-500">
+                        <select name="cidade" id="cidade" class="bg-grey-50 px-3 py-2 border border-grey-300 rounded text-gray-500">
                             <option value="">Escolha cidade</option>
                         </select>
-                        <button class="col-span-2 inline-flex items-center justify-center text-white  bg-orange-600 border border-orange-300 rounded font-medium px-3 py-2"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" ]
+                        <button class="col-span-2 inline-flex items-center justify-center text-white  bg-orange-600 border border-orange-600 rounded font-medium px-3 py-2"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" ]
                             class="w-4 h-4 mr-2"><path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
                           </svg>
                           
@@ -71,7 +98,7 @@
             <div class="flex flex-col-reverse lg:flex-row">
                 <div class="lg:pr-10">
                     <div class="text-sm text-gray-600 font-medium">RESORT EM DESTAQUE</div>
-                    <div class="text-3xl text-black">Ecoresort Praia do Forte Bahia</div>
+                    <div class="text-3xl text-orange-600 text-black">Eco resort Praia do Forte Bahia</div>
                     <div class="text-sm text-gray-600 font-medium mt-2">Hotel qualidade 5 estrelas</div>
                     <div class="text-sm text-gray-600 font-medium mt-4">
                         <p class="mb-2">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Autem quae, nemo quos, 
@@ -81,7 +108,7 @@
                              alias assumenda at dolor magnam ea perferendis dolorum, laudantium commodi provident nisi repudiandae! Nam labore optio debitis necessitatibus.</p>
                     </div>
                     <div class="mt-4">
-                        <a href="" class=" inline-flex items-center text-white  bg-orange-600 border border-yellow-300 rounded font-medium px-3 py-2">
+                        <a href="" class=" inline-flex items-center text-white  bg-orange-600 border border-orange-600 rounded font-medium px-3 py-2">
                             Solicitar Reserva
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h- ml-3">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3" />
@@ -140,7 +167,54 @@
 
     <!-- / Footer -->
 
+<script>
+const estadosSelect = document.getElementById("estados"); 
+estadosSelect.addEventListener('change', function() {
+var estadoSelecionado = document.getElementById('estados').value;
+console.log(estadoSelecionado)
+fetch(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${estadoSelecionado}/municipios`)
+  .then(response => response.json())
+  .then(cidades => {
+    const cidadeDropdown = document.getElementById('cidade');
 
+    // Limpa as opções existentes
+    cidadeDropdown.innerHTML = '';
+
+    // Adiciona as novas opções com base nas cidades obtidas
+    cidades.forEach(cidade => {
+      const option = document.createElement('option');
+      option.value = cidade.nome;
+      option.text = cidade.nome;
+      cidadeDropdown.add(option);
+    });
+    
+    
+
+
+  })
+  .catch(error => console.error('Erro ao obter cidades:', error));
+})
+async function minhaFuncaoAsync() {
+  const url = 'https://iatacodes-iatacodes-v1.p.rapidapi.com/api/v9/suggest?term=spain';
+  const options = {
+    method: 'GET',
+    headers: {
+      'X-RapidAPI-Key': '534a922058msh041d8caa1587c23p150384jsn5ce55c755e43',
+      'X-RapidAPI-Host': 'iatacodes-iatacodes-v1.p.rapidapi.com'
+    }
+  };
+
+  try {
+    const response = await fetch(url, options);
+    const result = await response.text();
+    console.log(result);
+  } catch (error) {
+    console.error(error);
+  }
+}
+minhaFuncaoAsync();
+
+</script>
 
     
 </body>
